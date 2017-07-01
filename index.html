@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Example : Undo</title>
+<meta name="description" content="An Example of JavaScript" />
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+<link href="main.css" rel="stylesheet">
+
+<style>
+	.content {
+		vertical-align: top;
+	}
+	.button-area {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+	}
+	.item-area {
+		display: inline-block;
+		vertical-align: top;
+		width: 400px;
+	}
+	.history-area {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.button {
+		margin-bottom: 10px;
+	}
+	.middle {
+		height: 35px;
+	}
+	.large {
+		width: 150px;
+		height: 50px;
+	}
+
+	.item {
+		border: solid 1px;
+		width: 350px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	.item-cell {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.item-name {
+		font-family: 'Roboto Mono', monospace;
+		font-weight: bold;
+		font-size: 50pt;
+	}
+	.color {
+		background-color: #f7f06e;
+	}
+
+	#btnUndo {
+		font-weight: bold;
+		font-size: 17pt;
+	}
+	#history-view {
+		font-size: 0.8em;
+	}
+
+</style>
+
+<script>
+	//--------------------------------------------------
+	var commandManager;
+
+	function onload() {
+		var view = new CommandHistoryView();
+		commandManager = new CommandManager(view);
+	}
+
+	//--------------------------------------------------
+	function moveUp() {
+		commandManager.moveUp();
+	}
+
+	function moveDown() {
+		commandManager.moveDown();
+	}
+
+	function toggleColor(id) {
+		commandManager.toggleColor(id);
+	}
+
+	function remove(id) {
+		commandManager.remove(id);
+	}
+
+	//--------------------------------------------------
+	function undo() {
+		commandManager.undo();
+	}
+
+	function undoAll() {
+		commandManager.undoAll();
+	}
+	//--------------------------------------------------
+</script>
+</head>
+
+<body onload="onload();">
+<div id="main">
+	<div id="memo">
+		<dl class="cf">
+			<dt>GitHub Code</dt>
+			<dd><a target="_blank" href="https://github.com/kirishimapublic/undo/">https://github.com/kirishimapublic/undo/</a></dd>
+		</dl>
+	</div>
+	<div id="content">
+		<div class="memo-area">
+			<div><p>できる操作は「上下の移動、色の変更、削除」の３つ</p></div>
+		</div>
+		<div class="button-area">
+			<div><input type="button" class="button middle" value="▲上に移動" onclick="moveUp();"></div>
+			<div><input type="button" class="button middle" value="▼下に移動" onclick="moveDown();"></div>
+		</div>
+		<div class="item-area">
+			<div class="item" id="item1">
+				<div class="item-cell">
+					<input type="radio" name="select" id="radio1" value="item1" checked="checked">
+				</div>
+				<div class="item-cell">
+					<label for="radio1" class="item-name">部品１</label>
+				</div>
+				<div class="item-cell">
+					<div><input type="button" class="button" value="色を変更" onclick="toggleColor('item1');"></div>
+					<div><input type="button" class="button" value="削除" onclick="remove('item1');"></div>
+				</div>
+			</div>
+			<div class="item" id="item2">
+				<div class="item-cell">
+					<input type="radio" name="select" id="radio2" value="item2">
+				</div>
+				<div class="item-cell">
+					<label for="radio2" class="item-name">部品２</label>
+				</div>
+				<div class="item-cell">
+					<div><input type="button" class="button" value="色を変更" onclick="toggleColor('item2');"></div>
+					<div><input type="button" class="button" value="削除" onclick="remove('item2');"></div>
+				</div>
+			</div>
+			<div class="item" id="item3">
+				<div class="item-cell">
+					<input type="radio" name="select" id="radio3" value="item3">
+				</div>
+				<div class="item-cell">
+					<label for="radio3" class="item-name">部品３</label>
+				</div>
+				<div class="item-cell">
+					<div><input type="button" class="button" value="色を変更" onclick="toggleColor('item3');"></div>
+					<div><input type="button" class="button" value="削除" onclick="remove('item3');"></div>
+				</div>
+			</div>
+			<div class="item" id="item4">
+				<div class="item-cell">
+					<input type="radio" name="select" id="radio4" value="item4">
+				</div>
+				<div class="item-cell">
+					<label for="radio4" class="item-name">部品４</label>
+				</div>
+				<div class="item-cell">
+					<div><input type="button" class="button" value="色を変更" onclick="toggleColor('item4');"></div>
+					<div><input type="button" class="button" value="削除" onclick="remove('item4');"></div>
+				</div>
+			</div>
+			<div class="item" id="item5">
+				<div class="item-cell">
+					<input type="radio" name="select" id="radio5" value="item5">
+				</div>
+				<div class="item-cell">
+					<label for="radio5" class="item-name">部品５</label>
+				</div>
+				<div class="item-cell">
+					<div><input type="button" class="button" value="色を変更" onclick="toggleColor('item5');"></div>
+					<div><input type="button" class="button" value="削除" onclick="remove('item5');"></div>
+				</div>
+			</div>
+		</div>
+		<div class="history-area">
+			<div>
+				<input type="button" class="button large" id="btnUndo" value="元に戻す！" onclick="undo();">
+				<input type="button" class="button" style="margin-left:20px;" id="btnUndoAll" value="一気に戻す" onclick="undoAll();">
+			</div>
+			<div><span>操作履歴</span></div>
+			<div>
+				<ol id="history-view">
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="undo.js"></script>
+</body>
+</html>
