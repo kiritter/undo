@@ -1,4 +1,4 @@
 # undo
 An Example of JavaScript
 
-Demo => http://kirishimapublic.github.io/undo/
+Demo => https://kiritter.github.io/undo/
