@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <title>Example : Undo</title>
 <meta name="description" content="An Example of JavaScript" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B25L64G43V"></script>
+<script>
+  var host = window.location.hostname;
+  if (host === '127.0.0.1' || host === 'localhost') {
+    //Dev
+  }else{
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-B25L64G43V');
+  }
+</script>
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
 <link href="main.css" rel="stylesheet">
